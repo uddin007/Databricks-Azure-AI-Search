@@ -147,5 +147,49 @@ When performing a vector query in Azure Cognitive Search, several key parameters
    ```python
    top=10
    ```
+In this specific example, a vector query is created to vector search "Kebernetes" from "content" field.
 
-These parameters give you fine-grained control over how vector searches are conducted in Azure Cognitive Search, allowing you to optimize for speed, accuracy, and relevance depending on your specific application needs.
+```python
+from azure.search.documents.models import VectorizedQuery
+from mlflow.deployments import get_deploy_client
+
+deploy_client = get_deploy_client("databricks")
+
+query = "Kubernetes"  
+
+response = deploy_client.predict(endpoint="textEmbeddingOpenAImodel", inputs={"input": query}).data[0]
+embedding = response['embedding']
+
+vector_query = VectorizedQuery(vector=embedding, k_nearest_neighbors=3, fields="contentVector")
+  
+results = search_client.search(  
+    search_text=None,  
+    vector_queries= [vector_query],
+    select=["title", "content", "category"],
+)  
+  
+for result in results:  
+    print(f"Title: {result['title']}")  
+    print(f"Score: {result['@search.score']}")  
+    print(f"Content: {result['content']}")  
+    print(f"Category: {result['category']}\n")
+```
+
+It will return 3 restuls from the search query with similarity score:
+
+```
+Title: Azure Kubernetes Service (AKS)
+Score: 0.68138754
+Content: Azure Kubernetes Service (AKS) is a managed container orchestration service based on the popular open-source Kubernetes system. It simplifies Kubernetes deployment and management, making it easy for developers and administrators to deploy, scale, and manage containerized applications. AKS offers automatic upgrades, scaling, and self-healing capabilities, reducing the operational overhead of managing Kubernetes clusters. It also integrates with Azure services like Azure Active Directory, Azure Monitor, and Azure Policy, providing a seamless experience for managing your applications and infrastructure.
+Category: Containers
+
+Title: Azure Kubernetes Service (AKS)
+Score: 0.6744978
+Content: Azure Kubernetes Service (AKS) is a fully managed, container orchestration platform that enables you to deploy, scale, and manage containerized applications using Kubernetes. It provides features like automatic scaling, rolling updates, and integration with Azure Active Directory. AKS supports various container runtimes, such as Docker and containerd. You can use Azure Kubernetes Service to build microservices, modernize your existing applications, and ensure high availability and scalability. It also integrates with other Azure services, such as Azure Container Registry and Azure Monitor.
+Category: Compute
+
+Title: Azure Container Registry
+Score: 0.61803377
+Content: Azure Container Registry is a fully managed, private Docker registry service that enables you to store and manage your container images and artifacts in Azure. It provides features like geo-replication, webhooks, and integration with Azure Active Directory. Container Registry supports various container formats, such as Docker and Open Container Initiative (OCI). You can use Azure Container Registry to build and deploy your containerized applications, ensure the security of your images, and automate your container lifecycle. It also integrates with other Azure services, such as Azure Kubernetes Service and Azure DevOps.
+Category: Containers
+```
