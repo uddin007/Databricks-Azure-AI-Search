@@ -13,8 +13,3 @@ Azure AI Vector + Semantic Search is a powerful feature of Microsoft Azure's AI 
    - **Integration**: The combination of vector search with semantic search allows for a more robust and intelligent search experience. Vector search handles complex, unstructured data while semantic search ensures that the results are contextually relevant.
    - **Use Cases**: This combination is particularly beneficial in applications such as enterprise search, customer support, and content discovery, where understanding user intent and content similarity is crucial.
 
-### **4. Implementation**
-   - **Ease of Use**: Azure provides tools and APIs to easily integrate Vector + Semantic Search into applications, making it accessible for developers to implement without deep expertise in AI.
-   - **Customization**: Users can fine-tune models and customize search experiences to match specific business needs, enhancing the overall search accuracy and user satisfaction.
-
-In this project, this is search capability is implemented using a Databricks notebook. Following are the pre-requisite to implment the search functionality.
