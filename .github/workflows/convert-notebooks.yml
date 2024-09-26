@@ -19,3 +19,11 @@ jobs:
         for notebook in *.ipynb; do
             jupyter nbconvert --to script "$notebook"
         done
+
+    - name: Commit and Push Converted Files
+      run: |
+        git config --local user.name "github-actions[bot]"
+        git config --local user.email "github-actions[bot]@users.noreply.github.com"
+        git add *.py
+        git commit -m "Convert notebooks to Python scripts" || echo "No changes to commit"
+        git push
