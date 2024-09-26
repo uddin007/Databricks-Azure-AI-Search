@@ -28,3 +28,4 @@ jobs:
         git config --global user.name "uddin007"
         git add *.py
         git commit -m "Convert notebooks to Python scripts" || echo "No changes to commit"
+        git push https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }} HEAD:${{ github.ref }}
