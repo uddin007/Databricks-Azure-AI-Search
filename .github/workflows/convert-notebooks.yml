@@ -1,0 +1,21 @@
+name: Convert Notebooks to Python Scripts
+
+on: [push]
+
+jobs:
+  convert:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'
+    - name: Install Jupyter
+      run: |
+        pip install nbconvert
+    - name: Convert Jupyter Notebooks
+      run: |
+        for notebook in *.ipynb; do
+            jupyter nbconvert --to script "$notebook"
+        done
