@@ -17,7 +17,7 @@ jobs:
     - name: Convert Jupyter Notebooks
       run: |
         for notebook in *.ipynb; do
-            jupyter nbconvert --to script "$notebook"
+            jupyter nbconvert --to script "$notebook" --output="${notebook%.ipynb}"
         done
 
     - name: Commit and Push Converted Files
