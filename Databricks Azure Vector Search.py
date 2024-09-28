@@ -9,7 +9,7 @@
 %pip install transformers==4.30.2 "unstructured[pdf,docx]==0.10.30" langchain==0.0.344 llama-index==0.9.3 databricks-vectorsearch==0.22 pydantic==1.10.9 databricks-sdk==0.12.0 mlflow[databricks] protobuf==3.19.0 
 dbutils.library.restartPython()
 
-# ### Enter Credentials here
+# ### Enter Credentials
 
 # In[ ]:
 
